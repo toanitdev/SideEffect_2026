@@ -1,9 +1,19 @@
 package com.toanitdev.sideeffectdemo
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,16 +23,34 @@ import com.toanitdev.sideeffectdemo.features.MainScreen
 import com.toanitdev.sideeffectdemo.features.ProductStateScreen
 import com.toanitdev.sideeffectdemo.features.RecomposeScreen
 import com.toanitdev.sideeffectdemo.features.RememberUpdateStateScreen
+import com.toanitdev.sideeffectdemo.features.ScopeFunctionScreen
 import com.toanitdev.sideeffectdemo.features.SideEffectScreen
 import com.toanitdev.sideeffectdemo.features.SnapshotFlowScreen
 import com.toanitdev.sideeffectdemo.ui.theme.SideEffectDemoTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
+
+
+
     setContent {
       SideEffectDemoTheme {
+        val lifecycleOwner = LocalLifecycleOwner.current
+
+        DisposableEffect(lifecycleOwner) {
+          val observer = LifecycleEventObserver { _, event ->
+            Log.d("ComposeActivityLifecycle", "Event: $event")
+          }
+
+          lifecycleOwner.lifecycle.addObserver(observer)
+
+          onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+          }
+        }
 
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "main_screen") {
@@ -53,6 +81,14 @@ class MainActivity : ComponentActivity() {
           }
           composable("product_state_screen") {
             ProductStateScreen()
+          }
+          composable("scope_function_screen") {
+            ScopeFunctionScreen()
+//            LaunchedEffect(Unit) {
+//
+//              val intent = Intent(this@MainActivity, NewActivity::class.java)
+//              startActivity(intent)
+//            }
           }
         }
       }

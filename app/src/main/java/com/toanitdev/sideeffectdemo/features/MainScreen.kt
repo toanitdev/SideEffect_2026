@@ -81,6 +81,13 @@ fun MainScreen(navController: NavController? = null) {
           Text("Product State", fontSize = 15.sp)
         }
       }
+      item {
+        RectButton({
+          navController?.navigate("scope_function_screen")
+        }) {
+          Text("Scope Functions", fontSize = 15.sp)
+        }
+      }
     }
   }
 }
