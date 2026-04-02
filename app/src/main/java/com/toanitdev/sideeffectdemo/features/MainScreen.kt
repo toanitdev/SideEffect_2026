@@ -83,9 +83,9 @@ fun MainScreen(navController: NavController? = null) {
       }
       item {
         RectButton({
-          navController?.navigate("scope_function_screen")
+          navController?.navigate("flow_screen")
         }) {
-          Text("Scope Functions", fontSize = 15.sp)
+          Text("Flow Screen", fontSize = 15.sp)
         }
       }
     }

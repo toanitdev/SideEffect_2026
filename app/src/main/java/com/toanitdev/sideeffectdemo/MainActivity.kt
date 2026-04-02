@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.toanitdev.sideeffectdemo.features.DerivedStateScreen
+import com.toanitdev.sideeffectdemo.features.FlowScreen
 import com.toanitdev.sideeffectdemo.features.LaunchEffectScreen
 import com.toanitdev.sideeffectdemo.features.MainScreen
 import com.toanitdev.sideeffectdemo.features.ProductStateScreen
@@ -89,6 +90,9 @@ class MainActivity : ComponentActivity() {
 //              val intent = Intent(this@MainActivity, NewActivity::class.java)
 //              startActivity(intent)
 //            }
+          }
+          composable("flow_screen") {
+            FlowScreen()
           }
         }
       }
